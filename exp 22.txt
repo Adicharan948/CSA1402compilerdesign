@@ -1,0 +1,51 @@
+Input Source Program: (constant.c)
+#define P 314  
+#include<stdio.h>
+#include<conio.h>
+ void main()
+{
+int a,b,c = 30;
+printf("hello");
+}
+Program: (constant.l)
+digit [0-9]
+%{
+int cons=0;
+%}
+%%
+{digit}+ { cons++; printf("%s is a constant\n", yytext);  }
+.|\n { }
+%%
+int yywrap(void) {
+return 1; }
+int main(void)
+{
+FILE *f;
+char file[10];
+printf("Enter File Name : ");
+scanf("%s",file);
+f = fopen(file,"r");
+yyin = f;
+yylex();
+printf("Number of Constants : %d\n", cons);
+fclose(yyin);  
+}
+
+Output:
+
+Microsoft Windows [Version 10.0.17134.1304]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\sse\Desktop\lex>set path=C:\Program Files\GnuWin32\bin
+
+C:\Users\sse\Desktop\lex>flex constant.l.txt
+
+C:\Users\sse\Desktop\lex>set path=C:\MinGW\MinGW\bin
+
+C:\Users\sse\Desktop\lex>gcc lex.yy.c
+
+C:\Users\sse\Desktop\lex>a.exe
+Enter File Name : constant.c
+314 is a constant
+30 is a constant
+Number of Constants : 2
